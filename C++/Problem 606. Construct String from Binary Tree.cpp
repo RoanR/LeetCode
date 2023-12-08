@@ -13,27 +13,29 @@ struct TreeNode {
 
 class Solution {
 public:
-	string stepCaseTree2str(TreeNode *root) 
+	void SC(TreeNode *root, string &ans) 
 	{
-		if (root == nullptr) {
-			return "";
-		} else {
-			string left = stepCaseTree2str(root->left);
-			string right = stepCaseTree2str(root->right);
-			if (right != "" && left == "") {
-				left = "()";
-			}
-			return "(" + to_string(root->val) + left + right + ")"; 
+		if (root == nullptr)
+			return;
+
+		ans += to_string(root->val);
+		if (root->left || root->right) {
+			ans += "("; 
+			SC(root->left, ans); 
+			ans += ")";
+		}
+
+		if (root->right) {
+			ans += "(";
+		       	SC(root->right, ans);
+			ans += ")";
 		}
 	}
 
 	string tree2str(TreeNode *root) 
 	{
-		string left = stepCaseTree2str(root->left);
-		string right = stepCaseTree2str(root->right);
-		if (right != "" && left == "") {
-			left = "()";
-		}
-		return to_string(root->val) + left + right;  
+		string ans;
+		SC(root, ans);
+		return ans; 
 	}
 };
